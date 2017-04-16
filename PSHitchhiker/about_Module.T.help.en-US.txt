@@ -1,0 +1,14 @@
+PSTOPIC
+    about_<%=$PLASTER_PARAM_ModuleName%>
+
+SHORT DESCRIPTION
+    <%=$PLASTER_PARAM_ModuleName%> ...
+
+LONG DESCRIPTION
+    <%=$PLASTER_PARAM_ModuleName%> ...
+
+    You can find API documentation here:
+        ...
+
+DETAILED DESCRIPTION
+   ...
