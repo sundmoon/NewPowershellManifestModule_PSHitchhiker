@@ -1,16 +1,27 @@
+#Requires -Modules InvokeBuild,Plaster
+#by Roman Kuzmin @nightroman
+
+$Destination = 'C:\PSHitchhiker'
+$PlasterTemplates = 'C:\Users\Operator\.vscode\extensions\ms-vscode.powershell-0.12.2\modules\Plaster\Templates'
+$PSHitchhikerTemplate = "$PlasterTemplates\NewPowershellManifestModule_PSHitchhiker"
+
 Task . Build
 
-Task Build Reinstall
+Task Build Clean, Plaster, InstallTemplate
 
-Task Plaster {
-    $Destination = 'PSHitchhiker'
-    Remove-Item "C:\$Destination" -Recurse -ea SilentlyContinue
-    Invoke-Plaster .\PSHitchhiker -DestinationPath "C:\$Destination" -NoLogo
+Task Clean {
+    Remove-Item $Destination -Recurse -ea SilentlyContinue
+    Remove-Item $PSHitchhikerTemplate -Recurse -ErrorAction SilentlyContinue
+}
+
+Task Plaster Clean, {
+    Invoke-Plaster .\PSHitchhiker -DestinationPath $Destination -NoLogo
+}
+
+Task InstallTemplate Plaster, {
+    Copy-Item .\PSHitchhiker -Destination $PSHitchhikerTemplate -Recurse
 }
 
 
-Task Reinstall {
-    $PlasterTemplates = 'C:\Users\Operator\.vscode\extensions\ms-vscode.powershell-0.12.2\modules\Plaster\Templates'
-    Remove-Item "$PlasterTemplates\PSHitchhiker" -Recurse -ErrorAction SilentlyContinue
-    Copy-Item .\PSHitchhiker -Destination $PlasterTemplates -Recurse
-}
+
+
