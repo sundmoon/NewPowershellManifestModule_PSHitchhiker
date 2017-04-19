@@ -1,0 +1,210 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<plasterManifest schemaVersion="1.0" xmlns="http://www.microsoft.com/schemas/PowerShell/Plaster/v1">
+  <metadata>
+    <name>NewPowerShellManifestModule_PSHitchicker</name>
+    <id>3b64b931-8e82-4fbe-9088-62819b36c3bd</id>
+    <version>1.0.0</version>
+    <title>New PowerShell Manifest Module for PSHitchhiker pipeline</title>
+    <description>Creates files for a Powershell module pipeline build according to Michael Willis' PSHitchhiker.</description>
+    <author>Lev Tikhonov</author>
+    <tags>Module, ModuleManifest, Pipeline, Build</tags>
+  </metadata>
+  <parameters>
+        <parameter name='ModuleName'
+                   type='text'
+                   prompt='Enter the name of the module'
+                   default='NewModuleForPSHitchhikerPipeline'/>
+
+        <parameter name='FullName'
+                  type='user-fullname'
+                  prompt='Enter your full name'
+                  store='text' />
+
+        <parameter name='Email'
+                  type='user-email'
+                  prompt='Enter your email address'
+                  store='text' />
+
+        <parameter name='GithubUsername'
+                  type='text'
+                  prompt='Enter the Github username'
+                  store='text' />
+
+
+        <parameter name='GithubRepository'
+                  type='text'
+                  prompt='Enter the Github repository'
+                  store='text' />
+
+
+        <parameter name='Version'
+                   type='text'
+                   prompt='Enter the version number of the module'
+                   default='0.1.0' />
+
+
+        <parameter name='CIURL'
+                   type='text'
+                   prompt='Enter the Jenkins project URL'
+                   default="http://jenkins/job/PSHitchhiker/" />
+
+        <parameter name='Editor'
+                   type='choice'
+                   prompt='Select a editor for editor integration (or None):'
+                   default='0'
+                   store='text' >
+            <choice label='&amp;None'
+                    help="No editor specified."
+                    value="None"/>
+            <choice label='Visual Studio &amp;Code'
+                    help="Your editor is Visual Studio Code."
+                    value="VSCode"/>
+        </parameter>
+
+        <parameter name='AddCI'
+                   type='choice'
+                   prompt='Create build file for Jenkins:'
+                   default='0'
+                   store='text'>
+            <choice label='&amp;No'
+                    help="Choose not to add Jenkins build support."
+                    value="No"/>
+            <choice label='&amp;Yes'
+                    help="Choose to add Jenkins build support."
+                    value="Yes"/>
+        </parameter>
+  </parameters>
+
+  <content>
+        <message>&#10;&#10;Scaffolding your PowerShell Module for PSHitchhiker pipeline ...&#10;&#10;&#10;</message>
+
+        <file source='static\template\**' destination='$PLASTER_PARAM_ModuleName'/>
+
+        <newModuleManifest destination='$PLASTER_PARAM_ModuleName\${PLASTER_PARAM_ModuleName}.psd1'
+                           moduleVersion='$PLASTER_PARAM_Version'
+                           rootModule='$PLASTER_PARAM_ModuleName\${PLASTER_PARAM_ModuleName}.psm1'
+                           encoding='UTF8-NoBOM'/>
+
+        <file source='Module.T\Module.psm1'
+              destination='$PLASTER_PARAM_ModuleName\${PLASTER_PARAM_ModuleName}.psm1'/>
+
+        <templateFile source='Module.T\Invoke-Module.T.ps1'
+                      destination='${PLASTER_PARAM_ModuleName}\public\Invoke-${PLASTER_PARAM_ModuleName}.ps1' />
+
+<message>
+
+        Scaffolding static files
+
+</message>
+
+        <file source='static\*'
+              destination=''/>
+
+        <file source='static\private\*'
+              destination='${PLASTER_PARAM_ModuleName}\private'/>
+
+        <file source='Module.T\parametersets\*'
+              destination='${PLASTER_PARAM_ModuleName}\private'/>
+
+<message>
+
+        Scaffolding help contents
+
+</message>
+
+        <file source='static\locale\**' destination='$PLASTER_PARAM_ModuleName'/>
+
+        <templateFile source='about_Module.T.help.en-US.txt'
+                      destination='${PLASTER_PARAM_ModuleName}\en-US\about_${PLASTER_PARAM_ModuleName}.help.txt' />
+
+
+<message>
+
+        Expanding InvokeBuild tasks and settings
+
+</message>
+
+        <templateFile source='Module.T.settings.ps1'
+                      destination='${PLASTER_PARAM_ModuleName}.settings.ps1' />
+
+        <templateFile source='Module.T.build.ps1'
+                      destination='${PLASTER_PARAM_ModuleName}.build.ps1' />
+
+<message>
+
+        Creating Pester tests
+
+</message>
+
+        <file source='static\template\**'
+            destination='tests' />
+
+        <templateFile source='Module.T.ps1'
+                      destination='tests\${PLASTER_PARAM_ModuleName}.Tests.ps1' />
+
+        <templateFile source = 'Module.T\Invoke-Module.tests.T.ps1'
+                      destination='tests\public\Invoke-${PLASTER_PARAM_ModuleName}.tests.ps1' />
+
+        <file source = 'Module.T\parametersets\tests\*'
+                      destination='tests\private' />
+
+        <file source = 'static\private\tests\*'
+                     destination='tests\private' />
+
+
+<message>
+
+      TODO: Here going to be replacement of modulename substrings, but I cannot figure out how to enumerate the target tests\private folder contents,
+            and also experiencing trouble using 'modify' content item as it!
+
+</message>
+
+<!--       <modify path='Get-ChildItem "${PLASTER_DestinationPath}\tests\private\").FullName'>
+               <replace condition="${PLASTER_FileContent} -match 'PSHitchhiker'" >
+                  <original>'PSHitchhiker'</original>
+                  <substitute>${PLASTER_PARAM_ModuleName}</substitute>
+               </replace>
+       </modify>-->
+
+
+<message condition="($PLASTER_PARAM_Editor -eq 'VSCode')">
+
+      Creating VSCode seetings and tasks
+
+</message>
+
+        <file condition="($PLASTER_PARAM_Editor -eq 'VSCode')"
+              source='editor\VSCode\settings.json'
+              destination='.vscode\settings.json' />
+
+        <file condition="($PLASTER_PARAM_Editor -eq 'VSCode')"
+              source='editor\VSCode\tasks.json'
+              destination='.vscode\tasks.json' />
+
+
+<message condition="$PLASTER_PARAM_AddCI -eq 'Yes'">
+
+      Creating Continous Integration build file
+
+</message>
+
+        <templateFile condition="$PLASTER_PARAM_AddCI -eq 'Yes'"
+                      source='CI\Jenkins\Jenkinsfile.T'
+                      destination='Jenkinsfile' />
+
+
+        <requireModule name="Pester" condition="$PLASTER_PARAM_AddTest -eq 'Yes'" minimumVersion="3.4.0"
+            message="Without Pester, you will not be able to run the provided Pester tests.`nWithout version 3.4.0, VS Code will not display Pester warnings and errors in the Problems panel."/>
+
+        <requireModule name="InvokeBuild"
+            message="'nWithout InvokeBuild, you will not be able to run the provided build tasks."/>
+
+        <requireModule name="PSScriptAnalyser"
+            message="`nWithout PSScriptAnalyser, you will not be able to lint your code."/>
+
+        <message>
+A Pester test has been created to validate the module's manifest file.
+You can run the Pester tests in your project by executing the 'test' task.  Press Ctrl+P, then type 'task test'.
+        </message>
+  </content>
+</plasterManifest>
