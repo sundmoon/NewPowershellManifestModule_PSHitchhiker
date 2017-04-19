@@ -10,7 +10,7 @@ $here = $here -replace 'tests', 'PSHitchhiker'
 Import-Module (Resolve-Path ".\PSHitchhiker\PSHitchhiker.psm1") -Force
 
 InModuleScope "PSHitchhiker" {
-    Describe "Public/Ask" {
+    Describe "Public/Rdp" {
         Context "Known Answers" {
             It "doesnt like questionless questions" {
                 Ask -Question "" | Should be "Please ask a question."

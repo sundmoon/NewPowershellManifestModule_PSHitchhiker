@@ -10,6 +10,26 @@
     <author>Lev Tikhonov</author>
     <tags></tags>
   </metadata>
-  <parameters></parameters>
-  <content></content>
+  <parameters>
+   <parameters>
+        <parameter name='PSET1'
+                   type='text'
+                   default='Ask'/>
+
+        <parameter name='PLASTER_PARAM_PSET1_CONTEXT1'
+                  type='text'
+                  store='text' />
+
+        <parameter name='PLASTER_PARAM_PSET1_CONTEXT1_IT1'
+                  type='text'
+                  store='text' />
+
+        <parameter name='PLASTER_PARAM_PSET1_CONTEXT1_IT1_BODY'
+                  type='text'
+                  store='text' />
+  </parameters>
+  <content>
+
+
+  </content>
 </plasterManifest>

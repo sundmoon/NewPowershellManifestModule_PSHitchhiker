@@ -2,32 +2,27 @@ $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 $sut = (Split-Path -Leaf $MyInvocation.MyCommand.Path) -replace '\.Tests\.', '.'
 
 # Since we match the srs/tests organization this works
-$here = $here -replace 'tests', 'PSHitchhiker'
+$here = $here -replace 'tests', '<%=$PLASTER_PARAM_ModuleName%>'
 
 . "$here\$sut"
 
 # Import our module to use InModuleScope
-Import-Module (Resolve-Path ".\PSHitchhiker\PSHitchhiker.psm1") -Force
+Import-Module (Resolve-Path ".\<%=$PLASTER_PARAM_ModuleName%>\<%=$PLASTER_PARAM_ModuleName%>.psm1") -Force
 
-InModuleScope "PSHitchhiker" {
-    Describe "Public/Ask" {
-        Context "Known Answers" {
-            It "doesnt like questionless questions" {
-                Ask -Question "" | Should be "Please ask a question."
-                Ask -Question $null | Should be "Please ask a question."
+InModuleScope "<%=$PLASTER_PARAM_ModuleName%>" {
+    Describe "Public/<%=$PLASTER_PARAM_PSET1%>" {
+        Context "<%=$PLASTER_PARAM_PSET1_CONTEXT1%>" {
+            It "<%=$PLASTER_PARAM_PSET1_CONTEXT1_IT1%>" {
+                <%=$PLASTER_PARAM_PSET1_CONTEXT1_IT1_BODY%>
             }
-            It "knows the answer to the ultimate question" {
-                $UltimateQuestion = "What is the answer to life, the universe, and everything?"
-                Ask -Question $UltimateQuestion | Should be "Forty-Two."
-                Ask -Question $UltimateQuestion -Format Roman | Should be "XLII"
-                Ask -Question $UltimateQuestion -Format Integer | Should be 42
+            It "<%=$PLASTER_PARAM_PSET1_CONTEXT1_IT2%>" {
+                <%=$PLASTER_PARAM_PSET1_CONTEXT1_IT2_BODY%>
             }
         }
-        Context "Random Answers" {
+        Context "<%=$PLASTER_PARAM_PSET1_CONTEXT2%>" {
             Mock Get-RandomQuote { return "Science." } -Verifiable
-            It "returns a random answer for unknown questions" {
-                Ask -Question "Why is pie delicious?" | Should be "Science."
-                Assert-VerifiableMocks
+            It "<%=$PLASTER_PARAM_PSET1_CONTEXT2_IT1%>" {
+                <%=$PLASTER_PARAM_PSET1_CONTEXT2_IT1_BODY%>
             }
         }
     }

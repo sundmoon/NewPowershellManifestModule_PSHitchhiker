@@ -10,24 +10,20 @@
     <tags>Module, ModuleManifest, Pipeline, Build</tags>
   </metadata>
   <parameters>
-        <parameter name='ModuleName'
+        <parameter name='PSET1'
                    type='text'
-                   prompt='Enter the name of the module'
-                   default='NewModuleForPSHitchhikerPipeline'/>
+                   default='Ask'/>
 
-        <parameter name='FullName'
-                  type='user-fullname'
-                  prompt='Enter your full name'
-                  store='text' />
-
-        <parameter name='Email'
-                  type='user-email'
-                  prompt='Enter your email address'
-                  store='text' />
-
-        <parameter name='GithubUsername'
+        <parameter name='PLASTER_PARAM_PSET1_CONTEXT1'
                   type='text'
-                  prompt='Enter the Github username'
+                  store='text' />
+
+        <parameter name='PLASTER_PARAM_PSET1_CONTEXT1_IT1'
+                  type='text'
+                  store='text' />
+
+        <parameter name='PLASTER_PARAM_PSET1_CONTEXT1_IT1_BODY'
+                  type='text'
                   store='text' />
 
 
