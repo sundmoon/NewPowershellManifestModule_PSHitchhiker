@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<plasterManifest
+  schemaVersion="1.0" xmlns="http://www.microsoft.com/schemas/PowerShell/Plaster/v1">
+  <metadata>
+    <name>ParameterSet_T</name>
+    <id>0273887c-4f15-4d14-bca8-0322cdd8b3f0</id>
+    <version>0.1.0</version>
+    <title>Template for PSHitchhiker Parameter Set</title>
+    <description></description>
+    <author>Lev Tikhonov</author>
+    <tags></tags>
+  </metadata>
+  <parameters>
+    <parameter name='ModuleName' type='text' prompt='' />
+
+    <parameter name='PSET1' type='text' prompt='' />
+    <parameter name='PSET1_CONTEXT1' type='text' prompt='' />
+
+    <parameter name='PSET1_CONTEXT1_IT1' type='text' prompt='' />
+    <parameter name='PSET1_CONTEXT1_IT2' type='text' prompt='' />
+
+    <parameter name='PSET1_CONTEXT2' type='text' prompt='' />
+    <parameter name='PSET1_CONTEXT2_IT1' type='text' prompt=''/>
+  </parameters>
+  <content>
+        <message>
+          Processing
+        </message>
+
+        <templateFile source='.\PSHitchhiker\Module.T\parametersets\'
+                      destination='${PLASTER_PARAM_ModuleName}\${PLASTER_PARAM_PSET1}.tests.ps1' />
+
+
+  </content>
+</plasterManifest>

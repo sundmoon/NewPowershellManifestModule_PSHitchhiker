@@ -13,16 +13,16 @@ InModuleScope "<%=$PLASTER_PARAM_ModuleName%>" {
     Describe "Public/<%=$PLASTER_PARAM_PSET1%>" {
         Context "<%=$PLASTER_PARAM_PSET1_CONTEXT1%>" {
             It "<%=$PLASTER_PARAM_PSET1_CONTEXT1_IT1%>" {
-                <%=$PLASTER_PARAM_PSET1_CONTEXT1_IT1_BODY%>
+
             }
             It "<%=$PLASTER_PARAM_PSET1_CONTEXT1_IT2%>" {
-                <%=$PLASTER_PARAM_PSET1_CONTEXT1_IT2_BODY%>
+
             }
         }
         Context "<%=$PLASTER_PARAM_PSET1_CONTEXT2%>" {
-            Mock Get-RandomQuote { return "Science." } -Verifiable
+
             It "<%=$PLASTER_PARAM_PSET1_CONTEXT2_IT1%>" {
-                <%=$PLASTER_PARAM_PSET1_CONTEXT2_IT1_BODY%>
+
             }
         }
     }
